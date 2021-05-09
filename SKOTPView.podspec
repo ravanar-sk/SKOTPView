@@ -9,7 +9,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "SKOTPView"
-  spec.version      = "0.0.1"
+  spec.version      = "0.0.2"
   spec.summary      = "A simple elagant OTP view for using in iOS applications."
 
   

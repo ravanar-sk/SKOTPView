@@ -7,15 +7,15 @@
 
 import UIKit
 
-class SKOTPItemSquare: UIView {
+public class SKOTPItemSquare: UIView {
     var labelTitle: UILabel!
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         setUpViews()
     }
 
-    required init?(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         super.init(coder: coder)
         setUpViews()
     }
@@ -48,13 +48,13 @@ class SKOTPItemSquare: UIView {
 
 extension SKOTPItemSquare: SKOTPItemProtocol {
     
-    func onChangeCharacter(_ value: String, _ isNext: Bool) {
+    public func onChangeCharacter(_ value: String, _ isNext: Bool) {
         
         self.layer.borderColor = value.count > 0 ? UIColor.darkGray.cgColor : UIColor.lightGray.cgColor
         
         labelTitle.text = value
         if isNext {
-//            self.layer.borderColor = UIColor.darkGray.cgColor
+            self.layer.borderColor = UIColor.darkGray.cgColor
         }
     }
     

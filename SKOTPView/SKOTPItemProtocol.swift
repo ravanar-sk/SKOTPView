@@ -7,6 +7,6 @@
 
 import Foundation
 
-@objc protocol SKOTPItemProtocol {
+@objc public protocol SKOTPItemProtocol {
     func onChangeCharacter(_ value: String,_ isNext: Bool) -> Void
 }

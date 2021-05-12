@@ -48,14 +48,10 @@ public class SKOTPItemSquare: UIView {
 
 extension SKOTPItemSquare: SKOTPItemProtocol {
     
-    public func onChangeCharacter(_ value: String, _ isNext: Bool) {
-        
+    public func onChangeCharacter(value: String, isNext: Bool) {
         self.layer.borderColor = value.count > 0 ? UIColor.darkGray.cgColor : UIColor.lightGray.cgColor
         
         labelTitle.text = value
-        if isNext {
-            self.layer.borderColor = UIColor.darkGray.cgColor
-        }
     }
     
 }

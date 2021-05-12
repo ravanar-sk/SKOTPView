@@ -21,11 +21,7 @@ public class SKOTPView: UIView {
     private var textFieldOTP: UITextField!
     private var stackViewLabels: UIStackView!
     
-    var numberOfDigits: Int = 6 {
-        didSet {
-            setUpViews()
-        }
-    }
+    var numberOfDigits: Int = 6
     
     var itemSpacing: CGFloat = 10 {
         didSet {
@@ -39,18 +35,28 @@ public class SKOTPView: UIView {
         super.init(frame: frame)
         
         loadDefaults()
-        setUpViews()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
         loadDefaults()
-        setUpViews()
+    }
+    
+    public override var canBecomeFirstResponder: Bool {
+        return true
     }
     
     public override func becomeFirstResponder() -> Bool {
-        return super.becomeFirstResponder() || textFieldOTP.becomeFirstResponder()
+        
+        let selfBecomeResponder = super.becomeFirstResponder()
+        let textFieldBecomeResponder = textFieldOTP.becomeFirstResponder()
+        
+        return selfBecomeResponder || textFieldBecomeResponder
+    }
+    
+    public override var canResignFirstResponder: Bool {
+        return true
     }
     
     public override func resignFirstResponder() -> Bool {
@@ -72,7 +78,9 @@ extension SKOTPView: UITextFieldDelegate {
     
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        guard let value = textField.text , let previousCode = value as? NSString else { return false }
+        guard let value = textField.text  else { return false }
+        let previousCode = value as NSString
+        
         let newCode = previousCode.replacingCharacters(in: range, with: string)
         
         if newCode.count <= numberOfDigits {
@@ -110,6 +118,8 @@ extension SKOTPView {
             textFieldOTP.textContentType = .oneTimeCode
         }
         
+        textFieldOTP.keyboardType = .numberPad
+        
         stackViewLabels = UIStackView(frame: .zero)
         self.addSubview(stackViewLabels)
         stackViewLabels.translatesAutoresizingMaskIntoConstraints = false
@@ -132,11 +142,13 @@ extension SKOTPView {
             stackViewLabels.removeArrangedSubview(view)
         }
         
-        for index in 0 ..< self.numberOfDigits {
-            if let otpItem = self.delegate?.viewForIndex(index) {
+        if let delegate = self.delegate, delegate.responds(to: #selector(SKOTPViewDelegate.viewForIndex(_:))) {
+            for index in 0 ..< self.numberOfDigits {
+                let otpItem = delegate.viewForIndex(index)
                 stackViewLabels.addArrangedSubview(otpItem)
             }
         }
+        
         setText("")
     }
     
@@ -147,11 +159,11 @@ extension SKOTPView {
         
         for index in 0 ..< numberOfDigits {
             if index < otpCharacters.count {
-                arrayViews[index].onChangeCharacter(String(otpCharacters[index]), false)
+                arrayViews[index].onChangeCharacter(value: String(otpCharacters[index]), isNext: false)
             } else if index > otpCharacters.count {
-                arrayViews[index].onChangeCharacter("", false)
+                arrayViews[index].onChangeCharacter(value: "", isNext: false)
             } else {
-                arrayViews[index].onChangeCharacter("", true)
+                arrayViews[index].onChangeCharacter(value: "", isNext: true)
             }
         }
     }
@@ -166,7 +178,7 @@ extension SKOTPView {
         }
     }
     
-    public func reload() {
+    public func reloadData() {
         setUpViews()
     }
 }

@@ -19,7 +19,7 @@ Use the provided two custom modes, or create your own and bend it to your will.
 Add the following line to your Podfile:
 
 ```ruby
-pod 'SKOTPView'
+pod 'SKOTPView', :git => 'https://github.com/ravanar-sk/SKOTPView.git'
 ```
 
 Then run the following in the same directory as your Podfile:

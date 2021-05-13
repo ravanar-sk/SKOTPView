@@ -21,15 +21,15 @@ public class SKOTPView: UIView {
     private var textFieldOTP: UITextField!
     private var stackViewLabels: UIStackView!
     
-    var numberOfDigits: Int = 6
+    public var numberOfDigits: Int = 6
     
-    var itemSpacing: CGFloat = 10 {
+    public var itemSpacing: CGFloat = 10 {
         didSet {
             stackViewLabels.spacing = itemSpacing
         }
     }
     
-    @IBOutlet weak var delegate: SKOTPViewDelegate?
+    @IBOutlet public weak var delegate: SKOTPViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
